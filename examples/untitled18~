@@ -1,0 +1,55 @@
+load('/home/debolina/Cantera_Diffusivity/cantera/interfaces/cython/cantera/examples/onedim/C12/C12_Le1.mat')
+    plot(Temp,X(:,3)*(101325/8.314)./Temp,'--m','LineWidth',3)
+    clear X Temp
+    hold on
+    load('/home/debolina/Cantera_Diffusivity/cantera/interfaces/cython/cantera/examples/onedim/C12/C12_Le1m.mat')
+    plot(Temp,X(:,3)*(101325/8.314)./Temp,':m','LineWidth',3)
+    clear X Temp
+    
+    load('/home/debolina/Cantera_Diffusivity/cantera/interfaces/cython/cantera/examples/onedim/C12/C12_Diff_2.mat')
+    plot(Temp,X(:,3)*(101325/8.314)./Temp,'--c','LineWidth',3)
+    clear X Temp
+    hold on
+    load('/home/debolina/Cantera_Diffusivity/cantera/interfaces/cython/cantera/examples/onedim/C12/C12_Diff_2_stretched.mat')
+    plot(Temp,X(:,3)*(101325/8.314)./Temp,':c','LineWidth',3)
+    clear X Temp
+    
+    load('/home/debolina/Cantera_Diffusivity/cantera/interfaces/cython/cantera/examples/onedim/C12/C12_Diff_3.mat')
+    plot(Temp,X(:,3)*(101325/8.314)./Temp,'--b','LineWidth',3)
+    clear X Temp
+    hold on
+    load('/home/debolina/Cantera_Diffusivity/cantera/interfaces/cython/cantera/examples/onedim/C12/C12_Diff_3_stretched.mat')
+    plot(Temp,X(:,3)*(101325/8.314)./Temp,':b','LineWidth',3)
+    clear X Temp
+    
+    load('/home/debolina/Cantera_Diffusivity/cantera/interfaces/cython/cantera/examples/onedim/C12/C12_Diff_4.mat')
+    plot(Temp,X(:,3)*(101325/8.314)./Temp,'--g','LineWidth',3)
+    clear X Temp
+    hold on
+    load('/home/debolina/Cantera_Diffusivity/cantera/interfaces/cython/cantera/examples/onedim/C12/C12_Diff_4_stretched.mat')
+    plot(Temp,X(:,3)*(101325/8.314)./Temp,':g','LineWidth',3)
+    clear X Temp
+    
+    load('/home/debolina/Cantera_Diffusivity/cantera/interfaces/cython/cantera/examples/onedim/C12/C12_Diff_5.mat')
+    plot(Temp,X(:,3)*(101325/8.314)./Temp,'--r','LineWidth',3)
+    clear X Temp
+    hold on
+    load('/home/debolina/Cantera_Diffusivity/cantera/interfaces/cython/cantera/examples/onedim/C12/C12_Diff_5_stretched.mat')
+    plot(Temp,X(:,3)*(101325/8.314)./Temp,':r','LineWidth',3)
+    clear X Temp
+    
+    load('/home/debolina/Cantera_Diffusivity/cantera/interfaces/cython/cantera/examples/onedim/C12/C12_Diff_6.mat')
+    plot(Temp,X(:,3)*(101325/8.314)./Temp,'--y','LineWidth',3)
+    clear X Temp
+    hold on
+    load('/home/debolina/Cantera_Diffusivity/cantera/interfaces/cython/cantera/examples/onedim/C12/C12_Diff_6_stretched.mat')
+    plot(Temp,X(:,3)*(101325/8.314)./Temp,':y','LineWidth',3)
+    clear X Temp
+    
+    load('/home/debolina/Cantera_Diffusivity/cantera/interfaces/cython/cantera/examples/onedim/C12/C12_0.mat')
+    plot(Temp,X(:,3)*(101325/8.314)./Temp,'--k','LineWidth',3)
+    clear X Temp
+    hold on
+    load('/home/debolina/Cantera_Diffusivity/cantera/interfaces/cython/cantera/examples/onedim/C12/C12_0m.mat')
+    plot(Temp,X(:,3)*(101325/8.314)./Temp,':k','LineWidth',3)
+    clear X Temp
