@@ -1,0 +1,78 @@
+
+clear all
+clc
+
+workdir='/home/debolina/DNS/c12/DataSets';
+cd(workdir)
+Ka = [1 4 12 36 108];
+
+n_el=[49999 40000 69999 200000 271999];
+
+NTref = 1;
+
+NOR = 289;
+
+Nspecies = 55;
+
+for jj = 1 : 1 : 1%length(Ka)
+    Ka(jj)
+    load(['/home/debolina/DNS/c12/DataSets/C12Ka' num2str(Ka(jj)) '.mat']);
+
+%% Defining progress variables
+
+P = linspace(0,1,201); % positions in the flame brush
+M_P = P(1:end-1)+diff(P)/2;
+
+% COMPUTE POSITION Z OF THE VARIOUS CBAR
+    STG = sum(Sc);    % Total consumption speed
+    file2 = ['/home/debolina/DNS/c12/DataSets/C12Ka' num2str(Ka(jj)) '_1.dat'];
+    fid = fopen(file2);
+    A = fread(fid,[9,n_el(jj)], 'double'); %Note: fread fills the matrix in column order
+    fclose(fid);
+    A = A';
+    Zel = zeros(n_el(jj),1);
+    
+    for j = 1:n_el(jj)
+        Zel(j) = (A(j,3) + A(j,6) + A(j,9))/3;
+    end
+    
+    clear A;
+    
+    Zmin = min(Zel); Zmax = max(Zel);
+    
+    % Divide flame brush in ntot positions
+    ntot = 200;
+    Zbrush = linspace(Zmin,Zmax,ntot);
+    STGbrush = zeros(ntot,1); STGbrush(end) = STG; STGbrush(1) = 0;
+    
+    for i=2:(ntot-1)
+        STGbrush(i) = sum(Sc(find(Zel<Zbrush(i))));
+        
+    end
+    
+    % Find flame brush positions at P
+    ZP = zeros(length(P),1);
+    ZP(1) = Zmin; ZP(end) = Zmax;
+    for i = 2:(length(ZP)-1)
+        j = 1;
+        while STGbrush(j)/STG < P(i)
+            j = j+1;
+        end
+        ZP(i) = Zbrush(j-1) + (Zbrush(j)-Zbrush(j-1))/(STGbrush(j)-STGbrush(j-1))*(P(i)*STG-STGbrush(j-1));
+    end
+    figure(1)
+    plot(-Zbrush,STGbrush/STG,'k','LineWidth',3)
+    hold on
+   %% Progress variable conditioned Reaction rates
+
+for i = 2 : 1 : length(ZP)    
+    index = find(Zel>ZP(i-1) & Zel<=ZP(i));
+    Sc_all = Sc(index);
+    Atr_all = Atr(index);
+    figure(1)
+    plot(-ZP(i),sum(Sc_all.*Atr_all)/sum(Atr_all),'ob')
+    hold on
+    clear index Sc_all Atr_all
+end
+
+end

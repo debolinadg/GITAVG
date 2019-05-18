@@ -1,0 +1,103 @@
+clear
+clc
+
+work_dir=['/home/debolina/chemkin/Methane_Kinetics/Flame_Speed'];
+% work_dir = '/home/debolina/chemkin/Dodecane/LongerTube/FlameSpeed';
+    cd(work_dir)
+    %Uinl(:)
+    fn_1 = ['CKSoln_solution_no_1_1.csv'];
+    fn_2 = ['CKSoln_solution_no_1_2.csv'];
+    fn_3 = ['CKSoln_solution_no_1_3.csv'];
+    fn_4 = ['CKSoln_solution_no_1_4.csv'];   
+    
+    M1 = csvread(fn_1, 1, 0);
+    M2 = csvread(fn_2, 1, 0);
+    M3 = csvread(fn_3, 1, 0);
+    M4 = csvread(fn_4, 1, 0);
+    
+    dist = M1(:,1);
+    hdot_total = M1(:,6);
+    Temp = M1(:,9);
+    AxialVel = M1(:,4);
+    %NormalStrain = M1(:,76);
+    X = M1(:,10:44);
+    MW = M1(:,46);
+    
+    MWsp =[2 1 16 32 17 18 33 34 12 13 14 14 15 16 28 44 29 30 31 31 32 25 26 27 28 29 30 41 42 42 34 43 44 43 44];
+    
+    for i = 1 : 1 : 35
+        Y(:,i) = X(:,i) * MWsp(i)./MW;
+    end
+    
+    index=[55:3:256];
+    
+    for i=1:1:length(index)
+        RXN_Rate(:,i)=M1(:,index(i));
+    end
+    
+    clear index
+    index=[4:3:256];
+    ll = min(size(RXN_Rate));
+    for i=ll+1:1:(ll+length(index))
+        RXN_Rate(:,i) = M2(:,index(i-ll));
+    end
+    
+    clear index
+    index=[4:3:193];
+    ll = min(size(RXN_Rate));
+    for i=ll+1:1:(ll+length(index))
+        RXN_Rate(:,i) = M3(:,index(i-ll));
+    end
+
+    
+    clear index
+    index=[196:1:256];
+    for i=1:1:length(index)
+        HDOT(:,i)=M3(:,index(i));
+    end
+    
+    clear index
+    index=[2:1:157];
+    ll = min(size(HDOT));
+    for i=ll+1:1:(ll+length(index))
+        HDOT(:,i)=M4(:,index(i-ll));
+    end
+%% Removing duplicacies in data from mechanism
+    
+     % H + O2 = HO2
+    INHR_n(jj,33) = INHR_n(jj,33) + INHR_n(jj,34) + INHR_n(jj,35) +INHR_n(jj,36);
+    INHR_n(jj,34) = 0;
+    INHR_n(jj,35) = 0;
+    INHR_n(jj,36) = 0;
+    
+    % 2H = H2
+    INHR_n(jj,38) = INHR_n(jj,38) + INHR_n(jj,39) + INHR_n(jj,40) +INHR_n(jj,41);
+    INHR_n(jj,39) = 0;
+    INHR_n(jj,40) = 0;
+    INHR_n(jj,41) = 0;
+    
+    % OH HO2 = O2 + H2O
+    INHR_n(jj,86) = INHR_n(jj,86) + INHR_n(jj,179);
+    INHR_n(jj,179) = 0;
+    
+    % OH + H2O2 = HO2 + H2O
+    INHR_n(jj,87) = INHR_n(jj,87) + INHR_n(jj,88);
+    INHR_n(jj,88) = 0;
+    
+    % 2HO2 = O2 + H2O2
+    INHR_n(jj,114) = INHR_n(jj,114) + INHR_n(jj,115);
+    INHR_n(jj,115) = 0;
+    
+    % HCO + M = H + CO + M
+    INHR_n(jj,165) = INHR_n(jj,165) + INHR_n(jj,164);
+    INHR_n(jj,164) = 0;
+    
+    % CH2(S) + M = CH2 + M
+    INHR_n(jj,141) = INHR_n(jj,141) + INHR_n(jj,146) + INHR_n(jj,149) +INHR_n(jj,150);
+    INHR_n(jj,146) = 0;
+    INHR_n(jj,149) = 0;
+    INHR_n(jj,150) = 0;
+%save_dir='/home/debolina/chemkin/Dodecane/LongerTube/FlameSpeed';
+save_dir = '/home/debolina/DNS/c12';
+cd(save_dir)
+save('Data_0.mat','hdot_total0','dist0','Temp0','AxialVel0','RXN_Rate','HDOT0','Y0','X0','MW0')

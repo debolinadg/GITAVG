@@ -1,0 +1,9 @@
+
+
+wfuel = 0;
+wfuelm = 0;
+for i = 1 : 1 : 217
+    
+    wfuel = wfuel + destruction_coeff(i,14) * RXN_Rate0(:,i) - formation_coeff(i,14) * RXN_Rate0(:,i);
+    wfuelm = wfuelm + destruction_coeff(i,14) * RXN_Ratem(:,i) - formation_coeff(i,14) * RXN_Ratem(:,i);
+end
